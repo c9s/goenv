@@ -1,0 +1,79 @@
+#!/bin/bash
+# source goenv
+if [[ -z $GOROOT ]] ; then
+    if [[ -e golang ]] ; then
+        export GOROOT=$(pwd)/golang
+    else
+        echo "GOROOT is empty, please export GOROOT to your go source root."
+        echo "Or run "
+        echo "    hg clone -u release https://code.google.com/p/go"
+        echo "To get the golang source"
+        exit 1
+    fi
+fi
+
+GOLIB=$(pwd)/go
+GOVENDOR=$(pwd)/go/vendor
+
+[[ ! -e go/src ]] && mkdir -p go/src
+[[ ! -e go/pkg ]] && mkdir -p go/pkg
+[[ ! -e go/doc ]] && mkdir -p go/doc
+[[ ! -e go/bin ]] && mkdir -p go/bin
+
+echo "Adding $GOLIB to GOPATH..."
+# export GOPATH=$GOVENDOR:$GOLIB
+export GOPATH=$GOLIB
+export PATH=$GOLIB/bin:$PATH
+[[ -e golang ]] && export PATH=$(pwd)/golang/go/bin:$PATH
+echo "Done"
+
+
+
+function clean() {
+    echo "Cleaning..."
+    rm -rf go/pkg/
+    go clean -i drshine
+}
+
+function build_all() {
+    go build -a -x drshine
+}
+
+function remote_install() {
+    repo=$1
+    go get -u $repo
+}
+
+function git_install() {
+  installdir=$(echo $GOPATH | cut -d: -f1)
+  repo=$1
+  target=$installdir/src/$2
+  branch=$3
+  currentdir=$(pwd)
+
+  if [[ -z $branch ]] ; then
+    branch=master
+  fi
+
+  mkdir -p $(dirname $target)
+
+  echo "===> Sync $repo => $target..."
+  if [[ ! -e $target ]] ; then
+    echo "Cloning..."
+    git clone --branch $branch $repo $target
+  else
+    echo "Fetching..."
+    GITCMD="git --work-tree $target --git-dir $target/.git"
+    if [[ -z `$GITCMD diff` ]] ; then
+      $GITCMD pull -q --rebase origin HEAD
+    else
+      $GITCMD fetch -q
+    fi
+
+    if [[ -n `$GITCMD log @{u}..` ]] ; then
+        echo "Pushing commits..."
+        $GITCMD push origin HEAD
+    fi
+    cd $target && go install && cd $currentdir
+  fi
+}
