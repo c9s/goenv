@@ -10,6 +10,7 @@ When you run `source goenv`, goenv creates the go project directory strucutre fo
 
     src/
     bin/
+    doc/
     pkg/
     vendor/
 
