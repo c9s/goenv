@@ -3,19 +3,6 @@
 GOLIB=$(pwd)
 GOVENDOR=$(pwd)/vendor
 
-
-if [[ -z $GOROOT ]] ; then
-    if [[ -e golang ]] ; then
-        export GOROOT=$(pwd)/golang
-    else
-        echo "GOROOT is empty, please export GOROOT to your go source root."
-        echo "Or run "
-        echo "    hg clone -u release https://code.google.com/p/go"
-        echo "To get the golang source"
-        exit 1
-    fi
-fi
-
 echo "Adding $GOLIB to GOPATH..."
 export GOPATH=$GOLIB
 
@@ -37,9 +24,6 @@ fi
 export PATH=$GOLIB/bin:$PATH
 if [[ -e golang ]] ; then 
     export PATH=$(pwd)/golang/go/bin:$PATH
-    if [[ -z $GOROOT ]] ; then
-        export GOROOT=$(pwd)/golang/go
-    fi
 fi
 echo "Done"
 
