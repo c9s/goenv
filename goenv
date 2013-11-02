@@ -12,19 +12,24 @@ if [[ -z $GOROOT ]] ; then
     fi
 fi
 
-GOLIB=$(pwd)/go
-GOVENDOR=$(pwd)/go/vendor
+GOLIB=$(pwd)
+GOVENDOR=$(pwd)/vendor
 
-[[ ! -e go/src ]] && mkdir -p go/src
-[[ ! -e go/pkg ]] && mkdir -p go/pkg
-[[ ! -e go/doc ]] && mkdir -p go/doc
-[[ ! -e go/bin ]] && mkdir -p go/bin
+[[ ! -e src ]] && mkdir -p src
+[[ ! -e pkg ]] && mkdir -p pkg
+[[ ! -e doc ]] && mkdir -p doc
+[[ ! -e bin ]] && mkdir -p bin
 
 echo "Adding $GOLIB to GOPATH..."
 # export GOPATH=$GOVENDOR:$GOLIB
 export GOPATH=$GOLIB
 export PATH=$GOLIB/bin:$PATH
-[[ -e golang ]] && export PATH=$(pwd)/golang/go/bin:$PATH
+if [[ -e golang ]] then 
+    export PATH=$(pwd)/golang/go/bin:$PATH
+    if [[ -z $GOROOT ]] ; then
+        export GOROOT=$(pwd)/golang/go
+    fi
+fi
 echo "Done"
 
 function clean() {
