@@ -27,19 +27,12 @@ export PATH=$GOLIB/bin:$PATH
 [[ -e golang ]] && export PATH=$(pwd)/golang/go/bin:$PATH
 echo "Done"
 
-
-
 function clean() {
     echo "Cleaning..."
     rm -rf go/pkg/
-    go clean -i drshine
 }
 
-function build_all() {
-    go build -a -x drshine
-}
-
-function remote_install() {
+function get() {
     repo=$1
     go get -u $repo
 }

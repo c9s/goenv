@@ -1,7 +1,8 @@
 goenv
 =====
 
-Usage:
+Usage
+---------
 
     source goenv
     go build app
@@ -13,7 +14,8 @@ Or define your `get.sh` for package dependencies:
 
     #!/bin/bash
     source goenv
-    git_install git@github.com:c9s/gatsby.git gatsby
+    get github.com/c9s/gatsby   # install github.com/c9s/gatsby
+    git_install git@github.com:c9s/gatsby.git gatsby              # install from ssh and install the package as "gatsby"
     git_install git@github.com:c9s/reqschema.git reqschema
     git_install git@github.com:c9s/textwrap.git textwrap
     git_install git@github.com:c9s/jsondata.git jsondata
