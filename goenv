@@ -22,8 +22,8 @@ fi
 [[ ! -e bin ]] && mkdir -p bin
 
 echo "Adding $GOLIB to GOPATH..."
-# export GOPATH=$GOVENDOR:$GOLIB
-export GOPATH=$GOLIB
+export GOPATH=$GOVENDOR:$GOLIB
+# export GOPATH=$GOLIB
 export PATH=$GOLIB/bin:$PATH
 if [[ -e golang ]] then 
     export PATH=$(pwd)/golang/go/bin:$PATH
