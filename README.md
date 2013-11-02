@@ -42,3 +42,16 @@ Or define your `sync.sh` script to install package dependencies:
     git_install git@github.com:c9s/jsondata.git jsondata
     git_install git@github.com:c9s/jsonhandler.git jsonhandler
 
+Built-in Tasks
+--------------------
+
+### clean
+
+clean installed packages
+
+### get
+
+shortcut for go get -u
+
+### git\_install
+
