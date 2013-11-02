@@ -16,16 +16,26 @@ if [[ -z $GOROOT ]] ; then
     fi
 fi
 
-[[ ! -e src ]] && mkdir -p src
-[[ ! -e pkg ]] && mkdir -p pkg
-[[ ! -e doc ]] && mkdir -p doc
-[[ ! -e bin ]] && mkdir -p bin
-
 echo "Adding $GOLIB to GOPATH..."
-export GOPATH=$GOVENDOR:$GOLIB
+export GOPATH=$GOLIB
+
+
+echo "Checking go project directory structure..."
+for subd in src bin pkg doc bin ; do
+    [[ ! -e $subd ]] && (mkdir -p $subd ; echo "\tcreate $subd")
+done
+
+
+if [[ -n $GOVENDOR ]] ; then
+    export GOPATH=$GOVENDOR:$GOPATH
+    for subd in src bin pkg doc bin ; do
+        [[ ! -e $GOVENDOR/$subd ]] && ( mkdir -p $GOVENDOR/$subd ; echo "\tcreate $GOVENDOR/$subd")
+    done
+fi
+
 # export GOPATH=$GOLIB
 export PATH=$GOLIB/bin:$PATH
-if [[ -e golang ]] then 
+if [[ -e golang ]] ; then 
     export PATH=$(pwd)/golang/go/bin:$PATH
     if [[ -z $GOROOT ]] ; then
         export GOROOT=$(pwd)/golang/go
@@ -35,7 +45,7 @@ echo "Done"
 
 function clean() {
     echo "Cleaning..."
-    rm -rf go/pkg/
+    rm -rf pkg
 }
 
 function get() {

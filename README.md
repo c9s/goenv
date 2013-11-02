@@ -12,7 +12,10 @@ When you run `source goenv`, goenv creates the go project directory strucutre fo
     bin/
     doc/
     pkg/
-    vendor/
+    vendor/src
+    vendor/pkg
+    vendor/bin
+    vendor/doc
 
 Then you can put your project package in the `src/` directory. e.g. you have a package named `app`:
 
