@@ -9,14 +9,14 @@ export GOPATH=$GOLIB
 
 echo "Checking go project directory structure..."
 for subd in src bin pkg doc bin ; do
-    [[ ! -e $subd ]] && (mkdir -p $subd ; echo "\tcreate $subd")
+    [[ ! -e $subd ]] && (mkdir -p $subd ; echo -e "\tcreate $subd")
 done
 
 
 if [[ -n $GOVENDOR ]] ; then
     export GOPATH=$GOVENDOR:$GOPATH
     for subd in src bin pkg doc bin ; do
-        [[ ! -e $GOVENDOR/$subd ]] && ( mkdir -p $GOVENDOR/$subd ; echo "\tcreate $GOVENDOR/$subd")
+        [[ ! -e $GOVENDOR/$subd ]] && ( mkdir -p $GOVENDOR/$subd ; echo -e "\tcreate $GOVENDOR/$subd")
     done
 fi
 
