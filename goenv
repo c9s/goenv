@@ -3,6 +3,11 @@
 GOLIB=$(pwd)
 GOVENDOR=$(pwd)/vendor
 
+if [[ -n "$GOBIN" ]] ; then
+  echo "Unset \$GOBIN ..."
+  unset GOBIN
+fi
+
 echo "Adding $GOLIB to GOPATH..."
 export GOPATH=$GOLIB
 
