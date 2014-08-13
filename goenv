@@ -3,6 +3,11 @@
 GOLIB=$(pwd)
 GOVENDOR=$(pwd)/vendor
 
+if [[ -n "$GOBIN" ]] ; then
+  echo "Unset \$GOBIN ..."
+  unset GOBIN
+fi
+
 echo "Adding $GOLIB to GOPATH..."
 export GOPATH=$GOLIB
 
@@ -21,7 +26,7 @@ if [[ -n $GOVENDOR ]] ; then
 fi
 
 # export GOPATH=$GOLIB
-export PATH=$GOLIB/bin:$PATH
+export PATH=$GOLIB/bin:$GOVENDOR/bin:$PATH
 if [[ -e golang ]] ; then 
     export PATH=$(pwd)/golang/go/bin:$PATH
 fi
